@@ -1,0 +1,31 @@
+stages:
+  - deploy-dev
+  - deploy-test
+  
+
+loki-dev:
+  image: google/cloud-sdk
+  stage: deploy-dev
+  tags:
+    - master1
+  script:
+    - kubectl apply -f loki/
+    - helm repo add grafana https://grafana.github.io/helm-charts
+    - helm repo update
+    - helm upgrade --install --namespace infra loki grafana/loki-stack --set loki.persistence.enabled=true,loki.persistence.storageClassName=loki-storage,loki.persistence.size=10Gi
+  when: manual
+
+prometheus-dev:
+  image: google/cloud-sdk
+  stage: deploy-dev
+  tags:
+    - master1
+  script:
+    - kubectl apply -f prometheus/storage.yaml
+    - kubectl apply -f prometheus/OAuth2-Proxy/
+    - kubectl apply -f grafana/
+    - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    - helm repo update
+    - helm upgrade --install --namespace infra prometheus prometheus-community/kube-prometheus-stack -f prometheus/values.yaml
+    # For update configmap for sidecar
+    - kubectl rollout restart deployments/prometheus-grafana -n infra
