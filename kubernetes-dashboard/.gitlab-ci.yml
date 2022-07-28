@@ -1,0 +1,22 @@
+stages:
+  - dashboard
+
+dashboard:
+  stage: dashboard
+  image: 
+    name: alpine/k8s:1.22.9
+    entrypoint: [""]
+  before_script:
+    - mkdir -p ~/.kube/
+    - echo ${KUB_DEV} | base64 -d > ~/.kube/config
+    - chmod o-r ~/.kube/config
+    - chmod g-r ~/.kube/config
+  script:
+    - helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+    - helm upgrade --create-namespace --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-dashboard -f dashboard/dev.yml
+    - kubectl apply -f dashboard/dashboard-admin.yaml
+    - kubectl get secret kubernetes-dashboard-token -n kubernetes-dashboard -o jsonpath="{.data.token}" | base64 --decode
+    - kubectl get secret kubernetes-dashboard-read-only-token -n kubernetes-dashboard -o jsonpath="{.data.token}" | base64 --decode
+  only:
+    - main
+  when: manual
