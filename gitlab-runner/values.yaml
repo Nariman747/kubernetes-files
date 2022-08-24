@@ -367,7 +367,7 @@ runners:
   ##
   ## ref: https://docs.gitlab.com/ee/ci/runners/configure_runners.html#use-tags-to-control-which-jobs-a-runner-can-run
   ##
-  tags: "intellagent-client-dev"
+  tags: "tag"
 
   ## Specify the name for the runner.
   ##
