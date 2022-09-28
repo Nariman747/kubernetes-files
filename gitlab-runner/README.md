@@ -57,7 +57,8 @@ subjects:
   namespace: gitlab-runner
 ```
 
-
+```
 helm upgrade --create-namespace --install gitlab-runner -f values.yaml gitlab/gitlab-runner -n gitlab-runner
 kubectl apply -f secret-gitlab.yml
 kubectl apply -f fix-sa-forbidden.yaml
+```
