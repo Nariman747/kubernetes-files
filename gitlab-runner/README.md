@@ -1,7 +1,7 @@
-helm repo add gitlab https://charts.gitlab.io
-helm repo update
-mkdir gitlab-runner && cd gitlab-runner
-wget https://raw.githubusercontent.com/Nariman747/kubernetes-files/main/gitlab-runner/values.yaml
+helm repo add gitlab https://charts.gitlab.io \
+helm repo update \
+mkdir gitlab-runner && cd gitlab-runner \
+wget https://raw.githubusercontent.com/Nariman747/kubernetes-files/main/gitlab-runner/values.yaml \
 
 vi secret-gitlab.yml
 ```

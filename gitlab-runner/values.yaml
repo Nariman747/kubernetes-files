@@ -168,11 +168,11 @@ rbac:
   ## ref: https://docs.gitlab.com/runner/executors/kubernetes.html#configuring-executor-service-account
   ##
   rules:
-  - resources: ["configmaps", "pods", "pods/attach", "secrets", "services"]
-    verbs: ["get", "list", "watch", "create", "patch", "update", "delete"]
-  - apiGroups: [""]
-    resources: ["pods/exec"]
-    verbs: ["create", "patch", "delete"]
+  ## - resources: ["configmaps", "pods", "pods/attach", "secrets", "services"]
+  ##   verbs: ["get", "list", "watch", "create", "patch", "update", "delete"]
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
 
   ## Run the gitlab-bastion container with the ability to deploy/manage containers of jobs
   ## cluster-wide or only within namespace
